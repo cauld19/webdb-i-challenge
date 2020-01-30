@@ -23,7 +23,28 @@ server.get('/', async (req, res) => {
     } catch (err) {
         res.status(500).json({error: "Failed to retrieve accounts"});
     }
-
 });
+
+
+server.get('/:id', async (req, res) => {
+
+    try {
+        const accounts = await db('accounts').where('id', req.params.id);
+        res.json(accounts)
+    } catch (err) {
+        res.status(500).json({error: "Failed to retrieve account"});
+    }
+})
+
+server.post('/', async (req, res) => {
+    const accountData = req.body;
+
+    try {
+        const accounts = await db('accounts').insert(accountData);
+        res.json(accounts)
+    } catch (err) {
+        res.status(500).json({error: "Failed to post account"});
+    }
+})
 
 module.exports = server;
