@@ -45,6 +45,25 @@ server.post('/', async (req, res) => {
     } catch (err) {
         res.status(500).json({error: "Failed to post account"});
     }
-})
+});
 
+server.put('/:id', async (req, res) => {
+    const updateData = req.body;
+
+    try {
+        const account = await db('accounts').where('id', req.params.id).update(updateData);
+        res.json(account);
+    } catch (err) {
+        res.status(500).json({error: "Failed to post data"});
+    }
+});
+
+server.delete('/:id', async (req, res) => {
+    try {
+        const account = await db('accounts').where('id', req.params.id).del();
+        res.json(account);
+    } catch (err) {
+        res.status(500).json({error: "Failed to delete data"});
+    }
+})
 module.exports = server;
