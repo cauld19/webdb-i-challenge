@@ -6,23 +6,30 @@ const server = express();
 
 server.use(express.json());
 
+const AccountHandler = require('./accounts/accountDb');
+
 server.get('/', async (req, res) => {
 
-    // db('accounts') 
-    //     .then( accounts => {
-    //         res.status(200).json(accounts)
-    //         console.log(accounts)
-    //     })
-    //     .catch ( err => {
-    //         res.status(500).json({error: "Failed to retreive accounts"})
-    //     })
+    // const { name } = req.query;
     
-    try {
-        const accounts = await db('accounts');
-        res.json(accounts);
-    } catch (err) {
-        res.status(500).json({error: "Failed to retrieve accounts"});
-    }
+    console.log(req.query);
+
+    AccountHandler.get(req.query)
+        .then( accounts => {
+            res.status(200).json(accounts)
+        })
+        .catch ( err => {
+            res.status(500).json({error: "Failed to retreive accounts"})
+        })
+
+            
+    // try {
+    //     const accounts = await db('accounts');
+    //     res.json(accounts);
+        
+    // } catch (err) {
+    //     res.status(500).json({error: "Failed to retrieve accounts"});
+    // }
 });
 
 
@@ -51,8 +58,11 @@ server.put('/:id', async (req, res) => {
     const updateData = req.body;
 
     try {
-        const account = await db('accounts').where('id', req.params.id).update(updateData);
+        console.log(updateData);
+        const account = await db('accounts').update(updateData).where('id', req.params.id);
+        console.log(account);
         res.json(account);
+        
     } catch (err) {
         res.status(500).json({error: "Failed to post data"});
     }

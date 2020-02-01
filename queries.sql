@@ -1,4 +1,4 @@
-/* -- Database Queries
+-- Database Queries
 
 -- Find all customers with postal code 1010
 
@@ -24,8 +24,12 @@ INSERT INTO Customers (CustomerName, ContactName, Address, City, PostalCode, Cou
 
 UPDATE Customers SET PostalCode = '11122' where CustomerId = 92;
 
-*/
 
 -- (Stretch) Find a query to discover how many different cities are stored in the Customers table. Repeats should not be double counted
 
+SELECT DISTINCT * FROM Customers GROUP BY City;
+
 -- (Stretch) Find all suppliers who have names longer than 20 characters. You can use `length(SupplierName)` to get the length of the name
+
+  SELECT * from Suppliers where LENGTH(SupplierName) > 20;
+
